@@ -1880,8 +1880,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
-/* harmony import */ var three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three/examples/jsm/loaders/FBXLoader.js */ "./node_modules/three/examples/jsm/loaders/FBXLoader.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls.js */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
+/* harmony import */ var three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/loaders/FBXLoader.js */ "./node_modules/three/examples/jsm/loaders/FBXLoader.js");
 //
 //
 //
@@ -1900,32 +1901,149 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+ //import { Stats } from './libs/stats.js';
+//import { Stats } from 'three/examples/jsm/libs/stats.module.js';
 
+
+ //import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  created: function created() {
-    // Canvas
-    var canvas = document.querySelector('canvas.model'); // Scene
-
-    var scene = new three__WEBPACK_IMPORTED_MODULE_1__.Scene();
-    var mixer; // model
-
-    var loader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_0__.FBXLoader();
-    loader.load('./assets/models/samba-dancing.fbx', function (object) {
-      /* mixer = new THREE.AnimationMixer( object );
-       const action = mixer.clipAction( object.animations[ 0 ] );
-      action.play();
-       object.traverse( function ( child ) {
-           if ( child.isMesh ) {
-               child.castShadow = true;
-              child.receiveShadow = true;
-           }
-       } ); */
-      scene.add(object);
-    });
+  data: function data() {
+    return {
+      //modelscr: 'http://localhost:8000/assets/models/samba-dancing.fbx',
+      modelscr: 'http://localhost:8000/assets/models/muro-de-prueba.FBX',
+      scene: null,
+      camera: null,
+      renderer: null,
+      stats: null,
+      clock: new three__WEBPACK_IMPORTED_MODULE_2__.Clock(),
+      mixer: null
+    };
   },
+  created: function created() {},
   mounted: function mounted() {
-    console.log('Component mounted.');
+    this.init();
+    this.animate();
+    /* const scene = new THREE.Scene();
+    const loader = new OBJLoader();
+    loader.load(
+    "http://localhost:8000/assets/models/Familias_Etex_Muro.obj",
+    function (gltf) {
+    scene.add(gltf);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);3
+    },
+    undefined,
+    function (error) {
+    console.error(error);
+    }
+    );*/
+    // Canvas
+
+    /* let canvas = document.getElementById('model');
+    console.log('element: ', canvas);
+     // Scene
+    const scene = new THREE.Scene();
+     let mixer, camera, renderer;
+     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+    camera.position.set( 100, 200, 300 );
+     // model
+    const loader = new FBXLoader();
+    loader.load( 'http://localhost:8000/assets/models/samba-dancing.fbx', function ( object ) {
+         scene.add( object );
+        scene.background = new THREE.Color(0xffffff, 0);
+        //scene.add(gltf);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.render(scene, camera);
+        canvas.appendChild(renderer.domElement);
+    } ); */
+
+    /* renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.shadowMap.enabled = true;
+     canvas.appendChild(renderer.domElement);
+     renderer.render(scene, camera) */
+  },
+  methods: {
+    init: function init() {
+      var _this = this;
+
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+      this.camera = new three__WEBPACK_IMPORTED_MODULE_2__.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+      this.camera.position.set(100, 200, 300);
+      this.scene = new three__WEBPACK_IMPORTED_MODULE_2__.Scene();
+      this.scene.background = new three__WEBPACK_IMPORTED_MODULE_2__.Color(0xa0a0a0);
+      this.scene.fog = new three__WEBPACK_IMPORTED_MODULE_2__.Fog(0xa0a0a0, 200, 1000);
+      var hemiLight = new three__WEBPACK_IMPORTED_MODULE_2__.HemisphereLight(0xffffff, 0x444444);
+      hemiLight.position.set(0, 200, 0);
+      this.scene.add(hemiLight);
+      var dirLight = new three__WEBPACK_IMPORTED_MODULE_2__.DirectionalLight(0xffffff);
+      dirLight.position.set(0, 200, 100);
+      dirLight.castShadow = true;
+      dirLight.shadow.camera.top = 180;
+      dirLight.shadow.camera.bottom = -100;
+      dirLight.shadow.camera.left = -120;
+      dirLight.shadow.camera.right = 120;
+      this.scene.add(dirLight); // ground
+
+      var mesh = new three__WEBPACK_IMPORTED_MODULE_2__.Mesh(new three__WEBPACK_IMPORTED_MODULE_2__.PlaneGeometry(2000, 2000), new three__WEBPACK_IMPORTED_MODULE_2__.MeshPhongMaterial({
+        color: 0x999999,
+        depthWrite: false
+      }));
+      mesh.rotation.x = -Math.PI / 2;
+      mesh.receiveShadow = true;
+      this.scene.add(mesh);
+      var grid = new three__WEBPACK_IMPORTED_MODULE_2__.GridHelper(2000, 20, 0x000000, 0x000000);
+      grid.material.opacity = 0.2;
+      grid.material.transparent = true;
+      this.scene.add(grid); // model
+
+      var loader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_1__.FBXLoader();
+      loader.load(this.modelscr, function (object) {
+        _this.mixer = new three__WEBPACK_IMPORTED_MODULE_2__.AnimationMixer(object);
+
+        var action = _this.mixer.clipAction(object.animations[0]);
+
+        action.play();
+        object.traverse(function (child) {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+
+        _this.scene.add(object);
+      });
+      this.renderer = new three__WEBPACK_IMPORTED_MODULE_2__.WebGLRenderer({
+        antialias: true
+      });
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.shadowMap.enabled = true;
+      container.appendChild(this.renderer.domElement);
+      var controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_0__.OrbitControls(this.camera, this.renderer.domElement);
+      controls.target.set(0, 100, 0);
+      controls.update();
+      window.addEventListener('resize', this.onWindowResize()); // stats
+      //stats = new Stats();
+      //container.appendChild( stats.dom );
+    },
+    onWindowResize: function onWindowResize() {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    },
+    animate: function animate() {
+      requestAnimationFrame(this.animate);
+      var delta = this.clock.getDelta();
+      if (this.mixer) this.mixer.update(delta);
+      this.renderer.render(this.scene, this.camera); //this.stats.update();
+    }
   }
 });
 
@@ -87716,8 +87834,8 @@ var staticRenderFns = [
                 "\n                    I'm an example component.\n                "
               )
             ]),
-            _vm._v("}\n\n                "),
-            _c("canvas", { staticClass: "model" })
+            _vm._v(" "),
+            _c("div", { attrs: { id: "model" } })
           ])
         ])
       ])
