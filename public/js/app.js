@@ -1925,48 +1925,6 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.init();
     this.animate();
-    /* const scene = new THREE.Scene();
-    const loader = new OBJLoader();
-    loader.load(
-    "http://localhost:8000/assets/models/Familias_Etex_Muro.obj",
-    function (gltf) {
-    scene.add(gltf);
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);3
-    },
-    undefined,
-    function (error) {
-    console.error(error);
-    }
-    );*/
-    // Canvas
-
-    /* let canvas = document.getElementById('model');
-    console.log('element: ', canvas);
-     // Scene
-    const scene = new THREE.Scene();
-     let mixer, camera, renderer;
-     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-    camera.position.set( 100, 200, 300 );
-     // model
-    const loader = new FBXLoader();
-    loader.load( 'http://localhost:8000/assets/models/samba-dancing.fbx', function ( object ) {
-         scene.add( object );
-        scene.background = new THREE.Color(0xffffff, 0);
-        //scene.add(gltf);
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.render(scene, camera);
-        canvas.appendChild(renderer.domElement);
-    } ); */
-
-    /* renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.shadowMap.enabled = true;
-     canvas.appendChild(renderer.domElement);
-     renderer.render(scene, camera) */
   },
   methods: {
     init: function init() {
